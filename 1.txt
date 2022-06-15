@@ -1,0 +1,12 @@
+SELECT
+	RANK() OVER (ORDER BY m.popularity DESC)
+		AS "Rank",
+    m.title AS "Title",
+    m.popularity AS "Popularity"
+FROM
+    commons.movies m
+WHERE
+    EXTRACT(YEAR FROM TRY_CAST(m.release_date AS DATE)) = :myYear
+ORDER BY
+	m.popularity DESC
+LIMIT 10;

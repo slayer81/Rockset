@@ -1,0 +1,11 @@
+select
+	RANK() OVER (ORDER BY COUNT(genres.name) DESC)
+    	as "Rank",
+	genres.name as Genre,
+    count(genres.name) as "Movie Count"
+FROM commons.movies m, UNNEST(m.genres) AS genres
+WHERE
+	EXTRACT(YEAR FROM TRY_CAST(m.release_date AS DATE)) = :myYear
+GROUP BY Genre
+ORDER BY "Movie Count" DESC
+LIMIT 10;

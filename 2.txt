@@ -1,0 +1,23 @@
+-- #2. Top 10 highest grossing movies in that year along with % of revenue that movie grossed
+-- over the total revenue grossed over all movies made in that calendar year (based on "revenue" field)
+WITH total AS (
+	SELECT CAST(sum(m.revenue) AS float) AS total_gross
+	FROM commons.movies m
+  	WHERE EXTRACT(YEAR FROM TRY_CAST(m.release_date AS DATE)) = :myYear
+)
+
+-- Rank | Title | Revenue | % of Revenue
+SELECT
+    RANK() OVER (ORDER BY m.revenue DESC) AS "Rank",
+	m.title AS "Title",
+    m.revenue AS Revenue,
+-- 	ROUND((CAST(m.revenue AS float) / total.total_gross) * 100) AS "% of Revenue"
+	CAST(ROUND((CAST(m.revenue AS float) / total.total_gross) * 100) AS int) AS "% of Revenue"
+FROM
+	commons.movies m,
+    total
+WHERE
+    EXTRACT(YEAR FROM TRY_CAST(m.release_date AS DATE)) = :myYear
+ORDER BY
+    m.revenue DESC
+LIMIT 10;

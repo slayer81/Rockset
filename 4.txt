@@ -1,0 +1,27 @@
+-- Top 10 Production Companies that made the most number of movies in that year's top genre
+WITH "target_genre" AS (
+	SELECT
+        genres.name AS targetGenre
+    FROM commons.movies m, UNNEST(m.genres) AS genres
+    WHERE
+  		EXTRACT(YEAR FROM TRY_CAST(m.release_date AS DATE)) = :myYear
+    GROUP BY
+        genres.name
+    ORDER BY
+        COUNT(genres.name) DESC
+    LIMIT 1
+)
+SELECT
+	RANK() OVER (ORDER BY COUNT(genres.name) DESC) AS "Rank",
+	Prod_Company.name AS "Production Company",
+    (SELECT targetGenre FROM target_genre) AS "Popular Genre",
+    COUNT(Prod_Company.name) AS "Movie Count"
+FROM commons.movies m, UNNEST(m.genres) AS genres, UNNEST(m.production_companies) AS Prod_Company
+WHERE
+	EXTRACT(YEAR FROM TRY_CAST(m.release_date AS DATE)) = :myYear AND
+    genres.name IN (SELECT targetGenre FROM target_genre)
+GROUP BY
+	Prod_Company.name
+ORDER BY
+	COUNT(Prod_Company.name) DESC
+LIMIT 10;
