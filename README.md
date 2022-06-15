@@ -11,6 +11,7 @@ An app that takes a calendar year as the only input and prints the following:
 `Rank | Title | Popularity`
 
 
+
 2. Top 10 highest grossing movies in that year along with % of revenue that
 movie grossed over the total revenue grossed over all movies made in that
 calendar year (based on "revenue" field).
@@ -20,9 +21,11 @@ by all movies is 50M USD, then number 10 should be printed in "\% of Revenue".
 `Rank | Title | Revenue | % of Revenue`
 
 
+
 3. Top 10 Genres in that year (based on "genre" field).
 
 `Rank | Genre | Movie Count`
+
 
 
 4. Based on the most popular Genre of that year, find the top 10 Production Companies
