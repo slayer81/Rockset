@@ -8,7 +8,7 @@ trial Rockset account and build <snip!> the following:
 An app that takes a calendar year as the only input and prints the following:
 1. Top 10 most popular movies in that year (based on "popularity" field).
 
-    `Rank | Title | Popularity`
+`Rank | Title | Popularity`
 
 
 2. Top 10 highest grossing movies in that year along with % of revenue that
